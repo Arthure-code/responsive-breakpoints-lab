@@ -1,0 +1,69 @@
+/*
+ * Exercise 4: an image and a block of text, with a footer that disappears on
+ * a phone.
+ *
+ * The three ranges no longer overlap. max-width: 665px and min-width: 665px
+ * are both true at exactly 665px, so that width used to match two blocks.
+ */
+
+header,
+main,
+footer {
+    border: 1px solid red;
+    width: 100%;
+}
+
+p {
+    text-align: center;
+}
+
+.container p {
+    text-align: justify;
+    margin: 5px;
+}
+
+/* Mobile screen */
+@media screen and (max-width: 664.98px) {
+
+    header {
+        background-color: green;
+    }
+
+    .image {
+        width: 100%;
+    }
+
+    .no-mobile {
+        display: none;
+    }
+}
+
+/* Tablet screen */
+@media screen and (min-width: 665px) and (max-width: 959.98px) {
+
+    header {
+        background-color: red;
+    }
+
+    /* flow-root contains the floated image, so the text below it starts clear */
+    main {
+        display: flow-root;
+    }
+
+    .image {
+        float: left;
+    }
+}
+
+/* Laptop screen */
+@media screen and (min-width: 960px) {
+
+    .image {
+        width: 100%;
+    }
+
+    p::after {
+        content: "laptop";
+        padding-left: 10px;
+    }
+}

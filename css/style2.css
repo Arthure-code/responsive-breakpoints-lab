@@ -1,0 +1,65 @@
+/*
+ * Exercise 2: two content blocks, stacked then side by side.
+ *
+ * The three ranges no longer overlap. max-width: 640px and min-width: 640px
+ * are both true at exactly 640px, so a screen of that width used to match the
+ * mobile block and the tablet block at once, and the later one won.
+ */
+
+header,
+main,
+footer {
+    border: 1px solid red;
+    width: 100%;
+}
+
+/* Shared by the three ranges, only the width and the flow change below */
+.content {
+    height: 300px;
+    background-color: dodgerblue;
+}
+
+p {
+    text-align: center;
+}
+
+/* Mobile screen */
+@media screen and (max-width: 639.98px) {
+
+    header {
+        background-color: green;
+    }
+
+    .content {
+        width: 100%;
+        margin: 5px 0;
+        display: inline-block;
+    }
+}
+
+/* Tablet screen */
+@media only screen and (min-width: 640px) and (max-width: 959.98px) {
+
+    header {
+        background-color: red;
+    }
+
+    .content {
+        width: 50%;
+    }
+
+    main {
+        display: flex;
+        margin-top: 5px;
+    }
+}
+
+/* Desktop screen */
+@media only screen and (min-width: 960px) {
+
+    .content {
+        width: 300px;
+        margin: 5px 0;
+        display: inline-block;
+    }
+}

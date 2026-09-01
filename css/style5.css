@@ -1,0 +1,121 @@
+/*
+ * Exercise 5: a three panel layout, menu, content and side panel.
+ *
+ * The three ranges no longer overlap. max-width: 640px and min-width: 640px
+ * are both true at exactly 640px, so that width used to match the mobile block
+ * and the tablet block at once, and the later one won.
+ */
+
+.content-panel,
+.menu-panel,
+.side-panel,
+.no-mobile,
+header,
+footer {
+    border: 1px solid red;
+    width: 100%;
+}
+
+p {
+    text-align: center;
+}
+
+.content-panel p {
+    text-align: justify;
+    padding: 10px;
+}
+
+/* Mobile screen */
+@media screen and (max-width: 639.98px) {
+
+    header {
+        background-color: green;
+    }
+
+    .image {
+        width: 100%;
+    }
+
+    p::after {
+        content: "mobile";
+        padding-left: 10px;
+    }
+
+    #container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+/* Tablet screen */
+@media screen and (min-width: 640px) and (max-width: 959.98px) {
+
+    header {
+        background-color: red;
+    }
+
+    #container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        text-align: justify;
+    }
+
+    /* float on a flex item does nothing, so the menu panel keeps only its size */
+    .menu-panel {
+        width: 16.5%;
+        height: 150px;
+    }
+
+    .content-panel {
+        width: 83%;
+    }
+
+    .side-panel {
+        width: 100%;
+    }
+
+    #container img {
+        float: left;
+        padding-right: 10px;
+    }
+
+    p::after {
+        content: "tablet";
+        padding-left: 10px;
+    }
+}
+
+/* Laptop screen */
+@media screen and (min-width: 960px) {
+
+    #container {
+        display: flex;
+        width: 100%;
+        text-align: justify;
+    }
+
+    #container img {
+        float: left;
+        padding-right: 10px;
+    }
+
+    .menu-panel,
+    .side-panel {
+        width: 18%;
+    }
+
+    .content-panel {
+        width: 64%;
+    }
+
+    .menu-panel {
+        height: 120px;
+    }
+
+    p::after {
+        content: "laptop";
+        padding-left: 10px;
+    }
+}

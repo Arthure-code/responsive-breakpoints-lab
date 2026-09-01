@@ -1,0 +1,66 @@
+/*
+ * Exercise 3: the same two blocks, written mobile first.
+ *
+ * The base rules are the phone layout, and each range above only adds what
+ * changes. The ranges no longer overlap: max-width: 640px and min-width: 640px
+ * are both true at exactly 640px, so that width used to match two blocks.
+ */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header,
+main,
+footer {
+    border: 1px solid red;
+    width: 100%;
+}
+
+.content {
+    height: 300px;
+    background-color: dodgerblue;
+    width: 100%;
+    margin: 5px 0;
+    text-align: center;
+}
+
+header {
+    background-color: green;
+}
+
+p {
+    text-align: center;
+}
+
+/* Tablet screen */
+@media only screen and (min-width: 640px) and (max-width: 959.98px) {
+
+    header {
+        background-color: red;
+    }
+
+    /* flow-root contains the floated blocks, so the footer stays below them */
+    main {
+        display: flow-root;
+    }
+
+    .content {
+        width: 50%;
+        float: left;
+    }
+}
+
+/* Desktop screen */
+@media only screen and (min-width: 960px) {
+
+    header {
+        background-color: white;
+    }
+
+    .content {
+        width: 300px;
+        display: inline-block;
+    }
+}
