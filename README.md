@@ -6,27 +6,25 @@ purpose, red outlines on every box and a header that turns green, red or plain
 depending on the range in force, so the breakpoint being applied is visible at
 a glance instead of having to be inferred.
 
-Three ranges throughout: phone up to 639.98 px, tablet from 640 px to
-959.98 px, desktop from 960 px. Exercise 4 uses 665 px instead of 640 px.
+## Breakpoints
 
-## The defect this lab is really about
+Three ranges, and each one closes just below the next one's start, so exactly
+one is ever in force:
 
-`max-width: 640px` and `min-width: 640px` are both true at exactly 640 px. A
-page written that way has two ranges active at that width, and whichever block
-comes last in the file wins. Measured in the browser, on the header colour that
-serves as the witness:
+| Range | Query |
+| --- | --- |
+| Phone | `max-width: 639.98px` |
+| Tablet | `min-width: 640px` and `max-width: 959.98px` |
+| Desktop | `min-width: 960px` |
 
-| Width | Before | After |
-| --- | --- | --- |
-| 639 px | phone | phone |
-| 640 px | tablet, the phone range never showed | phone |
-| 959 px | tablet | tablet |
-| 960 px | tablet, over the desktop rules | desktop |
+The fraction is the point. `max-width: 640px` and `min-width: 640px` are both
+true at exactly 640 px, so a page written on round numbers has two ranges live
+at the boundary and depends on the order of the blocks in the file to resolve
+them. Closing at 639px instead would leave a gap, since a device pixel ratio can
+land the viewport on a fractional width. Verified in the browser at 639, 640,
+959 and 960 px on all five pages: one range each time.
 
-The fix is to close each range just below the next one's start, `max-width:
-639.98px`, rather than to reorder the blocks and hope. Fractional pixels are
-what the CSS working group recommends here, because a device pixel ratio can
-land the viewport on a fractional value.
+Exercise 4 uses 665 px instead of 640 px, closed the same way at 664.98 px.
 
 ## The five exercises
 
@@ -34,9 +32,9 @@ land the viewport on a fractional value.
 
 ![Exercise 1 at 375, 800 and 1280 pixels](preview-no1.png)
 
-A single content block, centred with Flexbox. The shared rule that used to be
-repeated inside all three media queries now sits once at the top, which is what
-made the file readable enough to see the range bug in the first place.
+A single content block, centred with Flexbox. The rules shared by the three
+ranges sit once at the top of the file, and each range declares only the header
+colour that identifies it.
 
 ### 2. Two blocks, three flows
 
@@ -52,7 +50,7 @@ width.
 ![Exercise 3 at 375, 800 and 1280 pixels](preview-no3.png)
 
 Base rules are the phone layout, and each range above only declares what
-changes. The tablet range floats the two blocks, so `main` gets
+changes. The tablet range floats the two blocks, and `main` carries
 `display: flow-root` to contain them and keep the footer below.
 
 ### 4. Image, text, and a footer that leaves
@@ -61,8 +59,7 @@ changes. The tablet range floats the two blocks, so `main` gets
 
 The footer is hidden below 665 px through a `no-mobile` class, the image goes
 full width on a phone and floats beside the text on a tablet. `flow-root` again
-on the container, so the paragraph does not wrap around a float it was never
-meant to.
+on the container, so the float stays inside it.
 
 ### 5. Three panels
 
@@ -70,20 +67,22 @@ meant to.
 
 Menu, content and side panel. Stacked on a phone, menu plus content on a tablet
 with the side panel pushed to its own row, and three columns at 18, 64 and 18
-per cent on a laptop. The panels are laid out with Flexbox, so the `float` that
-was sitting on the menu panel was doing nothing and is gone.
+per cent on a laptop. The panels are laid out with Flexbox, so no float is
+involved in placing them.
 
-## What else was fixed
+## Markup notes
 
-- `<meta http-equiv="X-UA-Compatible" content="IE=edge">` removed from all five
-  pages. Internet Explorer was retired in June 2022.
-- `lang` added to every `<html>`. Without it a screen reader guesses the
-  language and can read the page in the wrong voice.
-- `alt` added to both images.
-- The menu in exercise 5 was three lists of one item each, announced as three
-  lists. It is now one list of three.
-- Rules repeated identically inside several media queries were hoisted to the
-  base, without changing what the pages render.
+- No `X-UA-Compatible` meta. Internet Explorer was retired in June 2022 and the
+  tag does nothing but sit there.
+- `lang` on every `<html>`, so a screen reader does not have to guess the
+  language and read the page in the wrong voice.
+- `alt` on both images.
+- The menu in exercise 5 is one list of three items rather than three lists of
+  one, which is how it is announced.
+- Containers holding floats use `display: flow-root`, so the footer stays below
+  them without a clearfix element.
+- Rules shared by all three ranges live once at the top of each file rather
+  than inside every media query.
 
 ## Structure
 
@@ -113,14 +112,11 @@ asset.
 
 Cinq pages consacrées aux media queries, avec la peau pédagogique d'origine:
 contours rouges et en tête coloré selon le palier, pour que le palier actif se
-voie du premier coup d'œil. Le vrai défaut corrigé ici est le chevauchement des
-paliers: `max-width: 640px` et `min-width: 640px` sont tous deux vrais à
-exactement 640 px, si bien que le palier mobile ne s'appliquait jamais à cette
-largeur. Chaque plage se ferme maintenant juste sous le début de la suivante.
-S'y ajoutent la suppression du meta Internet Explorer, l'ajout de `lang` et des
-`alt`, la réparation du menu en liste unique, la mise sous `flow-root` des
-conteneurs à flottants, et la déduplication des règles répétées dans chaque
-media query.
+voie du premier coup d'œil. Trois plages, chacune fermée juste sous le début de
+la suivante, de sorte qu'une seule s'applique à la fois: `max-width: 640px` et
+`min-width: 640px` sont tous deux vrais à exactement 640 px, et une page écrite
+sur des nombres ronds dépend alors de l'ordre des blocs dans le fichier.
+Vérifié dans le navigateur à 639, 640, 959 et 960 px sur les cinq pages.
 
 ## Licence
 
